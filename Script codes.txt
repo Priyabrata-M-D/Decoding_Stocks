@@ -1,0 +1,20 @@
+function copyDataFromSourceToDB() {
+
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sourceSheet = spreadsheet.getSheetByName("Source");
+  var dbSheet = spreadsheet.getSheetByName("DB");
+
+
+  var dataToCopy = sourceSheet.getRange(2, 1, sourceSheet.getLastRow() - 1, sourceSheet.getLastColumn()).getValues();
+
+
+  dbSheet.getRange(dbSheet.getLastRow() + 1, 1, dataToCopy.length, dataToCopy[0].length).setValues(dataToCopy);
+}
+
+
+function setupTrigger() {
+  ScriptApp.newTrigger('copyDataFromSourceToDB')
+      .timeBased()
+      .everyMinutes(1)  
+      .create();
+}
